@@ -1,25 +1,26 @@
 #!/usr/bin/python
-from itertools import izip
+import os
+import sys
 
-import socket
-from time import sleep
-
-from influxdb import client as influxdb
-
-db = influxdb.InfluxDBClient("localhost", 8086, "root", "root", "ztop")
+if os.name != 'posix':
+    sys.exit('platform not supported')
 
 import psutil
+import socket
+import time
 
-def collect_data():
-    cpu_percent = psutil.cpu_times_percent(interval=1)
-    data = format_for_submission("cpu_percent", cpu_percent)
-    db.write_points([data])
+from influxdb import client as influxdb
+db = influxdb.InfluxDBClient("localhost", 8086, "root", "root", "ztop")
+
+
+collectors = {"cpu_percent": psutil.cpu_times_percent,
+              "network_usage": psutil.net_io_counters}  # this is a counter; should replace with diff
 
 
 def format_for_submission(name, values):
     points = [socket.getfqdn()]
     columns = ["host"]
-    for field, value in izip(values._fields, values):
+    for field, value in zip(values._fields, values):  # assumes named tuple; we'll have to handle cases here or standardize output
         points.append(value)
         columns.append(field)
 
@@ -28,6 +29,24 @@ def format_for_submission(name, values):
             "columns": columns}
 
 
-while True:
-    collect_data()
-    sleep(1)
+def pub_data(data):
+    # later on, pub, with optional writing to db? or should the db be subbed?
+    db.write_points(data)
+
+
+def main():
+    interval = 1
+    while True:
+        start_time = time.time()
+        data = []
+        for name, fn in collectors.iteritems():
+            raw_data = fn()
+            data.append(format_for_submission(name, raw_data))
+        pub_data(data)
+        while (start_time + interval - time.time()) > 0:
+            rest_duration = start_time + interval - time.time()
+            time.sleep(rest_duration)
+
+
+if __name__ == '__main__':
+    main()
