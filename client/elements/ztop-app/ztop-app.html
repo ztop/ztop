@@ -12,6 +12,9 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>PID</th>
+          <th>Status</th>
+          <th>Threads</th>
           <th>% CPU</th>
           <th>% Memory</th>
         </tr>
@@ -19,6 +22,9 @@
       <tbody>
         <tr template repeat="{{process in socketData | hasCpuPercent | orderBy(['-cpu_percent', 'name'])}}">
           <td>{{process.name}}</td>
+          <td>{{process.pid}}</td>
+          <td>{{process.status}}</td>
+          <td>{{process.num_threads}}</td>
           <td>{{process.cpu_percent}}</td>
           <td>{{process.memory_percent}}</td>
         </tr>
