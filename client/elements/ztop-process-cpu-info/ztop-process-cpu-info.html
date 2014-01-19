@@ -6,6 +6,11 @@
 <polymer-element name="ztop-process-cpu-info">
   <template>
     <link rel="stylesheet" href="assets/pure-min.css">
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
     <ztop-web-socket data="{{socketData}}"></ztop-web-socket>
 
     <table class="pure-table pure-table-bordered">
