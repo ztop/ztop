@@ -14,6 +14,10 @@
 
     var reverseSortValues = [];
 
+    if (typeof columnsToOrderBy === 'string') {
+      columnsToOrderBy = [columnsToOrderBy];
+    }
+
     columnsToOrderBy.forEach(function(element, index) {
       if (element[0] == '-') {
         columnsToOrderBy[index] = element.substr(1);
@@ -27,6 +31,10 @@
     // temporary holder of position and sort-values
     var map = data.map(function(element, index){
       var sortValues = columnsToOrderBy.map(function(key) {
+        if (typeof element[key] === 'string') {
+          return element[key].toLowerCase();
+        }
+        
         return element[key];
       });
 
