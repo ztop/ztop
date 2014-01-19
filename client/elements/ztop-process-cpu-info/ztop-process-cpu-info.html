@@ -3,7 +3,7 @@
 
 <script src="../../orderBy.js"></script>
 
-<polymer-element name="ztop-app">
+<polymer-element name="ztop-process-cpu-info">
   <template>
     <link rel="stylesheet" href="assets/pure-min.css">
     <ztop-web-socket data="{{socketData}}"></ztop-web-socket>
@@ -32,7 +32,7 @@
     </table>
   </template>
   <script>
-    Polymer('ztop-app', {
+    Polymer('ztop-process-cpu-info', {
       socketData: [],
       hasCpuPercent: function(processes) {
         return processes.filter(function(process) {
