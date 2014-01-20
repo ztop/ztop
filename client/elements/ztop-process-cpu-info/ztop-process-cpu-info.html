@@ -3,7 +3,7 @@
 
 <script src="../../orderBy.js"></script>
 
-<polymer-element name="ztop-process-cpu-info">
+<polymer-element name="ztop-process-cpu-info" attributes="cpuUsage">
   <template>
     <link rel="stylesheet" href="assets/pure-min.css">
     <style>
@@ -38,11 +38,19 @@
   </template>
   <script>
     Polymer('ztop-process-cpu-info', {
+      cpuUsage: 0,
       socketData: [],
       hasCpuPercent: function(processes) {
         return processes.filter(function(process) {
           return (typeof process.cpu_percent === 'number');
         }, this);
+      },
+      socketDataChanged: function() {
+        var sum = 0;
+        this.socketData.forEach(function (process) {
+          sum += process.cpu_percent;
+        });
+        this.cpuUsage = Math.round(sum);
       }
     });
   </script>

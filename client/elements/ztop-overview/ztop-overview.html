@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ui-accordion/polymer-ui-accordion.html">
+<link rel="import" href="../../bower_components/polymer-ui-collapsible/polymer-ui-collapsible.html">
 <link rel="import" href="../ztop-process-cpu-info/ztop-process-cpu-info.html">
  
 <polymer-element name="ztop-overview">
@@ -7,8 +9,31 @@
       :host {
         display: block;
       }
+
+      polymer-ui-collapsible {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-bottom: 2px;
+      }
+
+      ztop-process-cpu-info {
+        max-height: 200px;
+        overflow-y: scroll;
+      }
+
+      .polymer-ui-collapsible-header {
+        border-bottom: 1px solid #bcbcbc;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 10px;
+      }
     </style>
-    <ztop-process-cpu-info></ztop-process-cpu-info>
+    <polymer-ui-accordion multi selected="0">
+      <polymer-ui-collapsible>
+        <div class="polymer-ui-collapsible-header">CPU - {{cpuUsage}}% CPU Usage</div>
+        <ztop-process-cpu-info cpuUsage="{{cpuUsage}}"></ztop-process-cpu-info>
+      </polymer-ui-collapsible>
+    </polymer-ui-accordion>
   </template>
   <script>
     Polymer('ztop-overview', { 
