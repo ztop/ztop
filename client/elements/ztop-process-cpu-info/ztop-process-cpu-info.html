@@ -1,9 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../ztop-web-socket/ztop-web-socket.html">
 
 <script src="../../orderBy.js"></script>
 
-<polymer-element name="ztop-process-cpu-info" attributes="cpuUsage maximumFrequency">
+<polymer-element name="ztop-process-cpu-info" attributes="cpuUsage maximumFrequency processData">
   <template>
     <link rel="stylesheet" href="assets/pure-min.css">
     <style>
@@ -11,7 +10,6 @@
         display: block;
       }
     </style>
-    <ztop-web-socket data="{{socketData}}"></ztop-web-socket>
 
     <table class="pure-table pure-table-bordered">
       <thead>
@@ -25,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr template repeat="{{process in socketData | hasCpuPercent | orderBy(['-cpu_percent', 'name'])}}">
+        <tr template repeat="{{process in processData | hasCpuPercent | orderBy(['-cpu_percent', 'name'])}}">
           <td>{{process.name}}</td>
           <td>{{process.pid}}</td>
           <td>{{process.status}}</td>
@@ -40,15 +38,15 @@
     Polymer('ztop-process-cpu-info', {
       cpuUsage: 0,
       maximumFrequency: 0,
-      socketData: [],
+      processData: [],
       hasCpuPercent: function(processes) {
         return processes.filter(function(process) {
           return (typeof process.cpu_percent === 'number');
         }, this);
       },
-      socketDataChanged: function() {
+      processDataChanged: function() {
         var sum = 0;
-        this.socketData.forEach(function (process) {
+        this.processData.forEach(function (process) {
           sum += process.cpu_percent;
         });
         this.cpuUsage = Math.round(sum);
