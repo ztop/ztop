@@ -3,7 +3,7 @@
 
 <script src="../../orderBy.js"></script>
 
-<polymer-element name="ztop-process-cpu-info" attributes="cpuUsage">
+<polymer-element name="ztop-process-cpu-info" attributes="cpuUsage maximumFrequency">
   <template>
     <link rel="stylesheet" href="assets/pure-min.css">
     <style>
@@ -39,6 +39,7 @@
   <script>
     Polymer('ztop-process-cpu-info', {
       cpuUsage: 0,
+      maximumFrequency: 0,
       socketData: [],
       hasCpuPercent: function(processes) {
         return processes.filter(function(process) {
@@ -51,6 +52,9 @@
           sum += process.cpu_percent;
         });
         this.cpuUsage = Math.round(sum);
+
+        // TODO use real value
+        this.maximumFrequency = Math.floor(Math.random() * 151);
       }
     });
   </script>

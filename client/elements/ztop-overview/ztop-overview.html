@@ -22,32 +22,45 @@
         overflow-y: scroll;
       }
 
+      ztop-percent-indicator-vertical {
+        vertical-align: text-bottom;
+      }
+
       .polymer-ui-collapsible-header {
+        background: url(assets/down-arrow-circle.png) no-repeat right;
         border-bottom: 1px solid #bcbcbc;
         cursor: pointer;
         display: flex;
-        font-weight: bold;
         padding: 10px;
+        padding-right: 40px;
+      }
+
+      .polymer-selected > .polymer-ui-collapsible-header {
+        background: url(assets/up-arrow-circle.png) no-repeat right;
       }
 
       .polymer-ui-collapsible-header > span {
         flex: 1;
       }
+
+      .title {
+        font-weight: bold;
+      }
     </style>
     <polymer-ui-accordion multi selected="0">
       <polymer-ui-collapsible>
         <header class="polymer-ui-collapsible-header">
-          <span>
+          <span class="title">
             CPU
           </span>
           <span>
             <ztop-percent-indicator-vertical percent="{{cpuUsage}}"></ztop-percent-indicator-vertical> {{cpuUsage}}% CPU Usage
           </span>
           <span>
-            <ztop-percent-indicator-vertical percent="103"></ztop-percent-indicator-vertical> 103% Maximum Frequency
+            <ztop-percent-indicator-vertical percent="{{maximumFrequency}}"></ztop-percent-indicator-vertical> {{maximumFrequency}}% Maximum Frequency
           </span>
         </header>
-        <ztop-process-cpu-info cpuUsage="{{cpuUsage}}"></ztop-process-cpu-info>
+        <ztop-process-cpu-info cpuUsage="{{cpuUsage}}" maximumFrequency="{{maximumFrequency}}"></ztop-process-cpu-info>
       </polymer-ui-collapsible>
     </polymer-ui-accordion>
   </template>
