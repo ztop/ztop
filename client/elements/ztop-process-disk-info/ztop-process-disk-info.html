@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script src="../../orderBy.js"></script>
+
+<polymer-element name="ztop-process-disk-info" attributes="diskIo highestActiveTime processData">
+  <template>
+    <link rel="stylesheet" href="assets/pure-min.css">
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>PID</th>
+          <th>File</th>
+          <th>Read ...</th>
+          <th>Write ...</th>
+          <th>Total ...</th>
+          <th>I/O Priority</th>
+          <th>Resp ...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr template repeat="{{process in processData | orderBy('name')}}">
+          <td>{{process.name}}</td>
+          <td>{{process.pid}}</td>
+          <td>/usr/bin/whatever</td>
+          <td>10,000</td>
+          <td>0</td>
+          <td>10,000</td>
+          <td>Normal</td>
+          <td>74</td>
+        </tr>
+      </tbody>
+    </table>
+  </template>
+  <script>
+    Polymer('ztop-process-disk-info', {
+      diskIo: 0,
+      highestActiveTime: 0,
+      processData: [],
+      processDataChanged: function() {
+        // TODO use real value
+        this.diskIo = Math.floor(Math.random() * 100);
+
+        // TODO use real value
+        this.highestActiveTime = Math.floor(Math.random() * 100);
+      }
+    });
+  </script>
+</polymer-element>

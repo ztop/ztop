@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/polymer-ui-collapsible/polymer-ui-collapsible.html">
 <link rel="import" href="../ztop-percent-indicator-vertical/ztop-percent-indicator-vertical.html">
 <link rel="import" href="../ztop-process-cpu-info/ztop-process-cpu-info.html">
+<link rel="import" href="../ztop-process-disk-info/ztop-process-disk-info.html">
 <link rel="import" href="../ztop-web-socket/ztop-web-socket.html">
  
 <polymer-element name="ztop-overview">
@@ -18,7 +19,7 @@
         margin-bottom: 2px;
       }
 
-      ztop-process-cpu-info {
+      polymer-ui-collapsible > :not(header) {
         max-height: 200px;
         overflow-y: scroll;
       }
@@ -65,6 +66,21 @@
           </span>
         </header>
         <ztop-process-cpu-info cpuUsage="{{cpuUsage}}" maximumFrequency="{{maximumFrequency}}" processData="{{processData}}"></ztop-process-cpu-info>
+      </polymer-ui-collapsible>
+
+      <polymer-ui-collapsible>
+        <header class="polymer-ui-collapsible-header">
+          <span class="title">
+            Disk
+          </span>
+          <span>
+            <ztop-percent-indicator-vertical percent="{{diskIo}}"></ztop-percent-indicator-vertical> {{diskIo}} KB/sec Disk I/O
+          </span>
+          <span>
+            <ztop-percent-indicator-vertical percent="{{highestActiveTime}}"></ztop-percent-indicator-vertical> {{highestActiveTime}}% Highest Active Time
+          </span>
+        </header>
+        <ztop-process-disk-info diskIo="{{diskIo}}" highestActiveTime="{{highestActiveTime}}" processData="{{processData}}"></ztop-process-disk-info>
       </polymer-ui-collapsible>
     </polymer-ui-accordion>
   </template>
