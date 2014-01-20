@@ -41,7 +41,7 @@
       processData: [],
       processDataChanged: function() {
         // TODO use real value
-        this.networkIo = Math.floor(Math.random() * 100);
+        this.networkIo = Math.min(10, Math.max(0, this.networkIo + Math.floor(Math.random() * 6) - 3));
 
         // TODO use real value
         this.networkUtilization = Math.floor(Math.random() * 100);

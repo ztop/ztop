@@ -45,7 +45,7 @@
       processData: [],
       processDataChanged: function() {
         // TODO use real value
-        this.diskIo = Math.floor(Math.random() * 100);
+        this.diskIo = Math.min(100, Math.max(0, this.diskIo + Math.floor(Math.random() * 40) - 20));
 
         // TODO use real value
         this.highestActiveTime = Math.floor(Math.random() * 100);
