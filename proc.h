@@ -3,7 +3,10 @@
 
 // Data regarding the CPU Time usage for a single process
 typedef struct _cpu_time {
-	
+   unsigned long long int utime;
+   unsigned long long int stime;
+   unsigned long long int cutime;
+   unsigned long long int cstime;
 } CPUTime;
 
 typedef struct _network_usage {
