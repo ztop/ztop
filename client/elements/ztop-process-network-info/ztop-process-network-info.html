@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script src="../../orderBy.js"></script>
+
+<polymer-element name="ztop-process-network-info" attributes="networkIo networkUtilization processData">
+  <template>
+    <link rel="stylesheet" href="assets/pure-min.css">
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>PID</th>
+          <th>Address</th>
+          <th>Send (B/s...</th>
+          <th>Receive (B/s...</th>
+          <th>Total ...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr template repeat="{{process in processData | orderBy('name')}}">
+          <td>{{process.name}}</td>
+          <td>{{process.pid}}</td>
+          <td>192.168.0.1</td>
+          <td>35</td>
+          <td>694</td>
+          <td>729</td>
+        </tr>
+      </tbody>
+    </table>
+  </template>
+  <script>
+    Polymer('ztop-process-network-info', {
+      networkIo: 0,
+      networkUtilization: 0,
+      processData: [],
+      processDataChanged: function() {
+        // TODO use real value
+        this.networkIo = Math.floor(Math.random() * 100);
+
+        // TODO use real value
+        this.networkUtilization = Math.floor(Math.random() * 100);
+      }
+    });
+  </script>
+</polymer-element>
