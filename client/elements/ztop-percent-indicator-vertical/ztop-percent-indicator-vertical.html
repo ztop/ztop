@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+ 
+<polymer-element name="ztop-percent-indicator-vertical" attributes="percent ">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      .outer {
+        background-color: black;
+        overflow: hidden;
+        position: relative;
+        width: 15px;
+      }
+
+      .inner {
+        background-color: green;
+        left: 0;
+        position: absolute;
+        width: 15px;
+      }
+    </style>
+    <div class="outer" style="height: {{height}}px;">
+      <div class="inner" style="height: {{height}}px; top: {{indicatorTop/100*height}}px;">
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer('ztop-percent-indicator-vertical', {
+      height: 20,
+      indicatorTop: 100,
+      percent: 0,
+      percentChanged: function() {
+        this.indicatorTop = 100 - Math.max(0, Math.min(100, this.percent));
+      }
+    });
+  </script>
+</polymer-element>
+ 

@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ui-accordion/polymer-ui-accordion.html">
 <link rel="import" href="../../bower_components/polymer-ui-collapsible/polymer-ui-collapsible.html">
+<link rel="import" href="../ztop-percent-indicator-vertical/ztop-percent-indicator-vertical.html">
 <link rel="import" href="../ztop-process-cpu-info/ztop-process-cpu-info.html">
  
 <polymer-element name="ztop-overview">
@@ -24,13 +25,28 @@
       .polymer-ui-collapsible-header {
         border-bottom: 1px solid #bcbcbc;
         cursor: pointer;
+        display: flex;
         font-weight: bold;
         padding: 10px;
+      }
+
+      .polymer-ui-collapsible-header > span {
+        flex: 1;
       }
     </style>
     <polymer-ui-accordion multi selected="0">
       <polymer-ui-collapsible>
-        <div class="polymer-ui-collapsible-header">CPU - {{cpuUsage}}% CPU Usage</div>
+        <header class="polymer-ui-collapsible-header">
+          <span>
+            CPU
+          </span>
+          <span>
+            <ztop-percent-indicator-vertical percent="{{cpuUsage}}"></ztop-percent-indicator-vertical> {{cpuUsage}}% CPU Usage
+          </span>
+          <span>
+            <ztop-percent-indicator-vertical percent="103"></ztop-percent-indicator-vertical> 103% Maximum Frequency
+          </span>
+        </header>
         <ztop-process-cpu-info cpuUsage="{{cpuUsage}}"></ztop-process-cpu-info>
       </polymer-ui-collapsible>
     </polymer-ui-accordion>
