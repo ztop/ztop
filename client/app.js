@@ -1,33 +1,19 @@
 angular.module('clientApp', [])
-  .factory('Data', function($timeout) {
+  .factory('Data', function($rootScope) {
     var sock = new ReconnectingWebSocket('ws://localhost:9000');
-
-    var listeners = [];
+    var data = [];
 
     sock.onmessage = function(e) {
-      var data = JSON.parse(e.data);
-      listeners.forEach(function(fn) {
-        $timeout(function() { fn(data); }, 0);
+      $rootScope.$apply(function() {
+        data.length = 0;
+        JSON.parse(e.data).forEach(function(d) { data.push(d); });
       });
     };
 
-    return {
-      register: function(fn) {
-        listeners.push(fn);
-      },
-
-      unregister: function(fn) {
-        var index = listeners.indexOf(fn);
-        if (index > -1) {
-            listeners.splice(index, 1);
-        }
-      }
-    }
+    return data;
   })
   .controller('MainCtrl', function($scope, Data) {
-    Data.register(function(data) {
-      $scope.processes = data;
-    });
+    $scope.processes = Data;
 
-    $scope.hasCpuPercent = function(p) { return typeof p.cpu_percent === 'number'; }
+    $scope.hasCpuPercent = function(p) { return typeof p.cpu_percent === 'number'; };
   });
