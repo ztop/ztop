@@ -1,0 +1,79 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+ 
+<polymer-element name="ztop-chart-line" attributes="points height width minX minY maxX maxY">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+    </style>
+    <svg height="{{height}}" width="{{width}}">
+      <path d="{{pathD}}" stroke="#55ff55" stroke-width="1" fill-opacity="1" fill="green"></path>
+    </svg>
+  </template>
+  <script>
+    Polymer('ztop-chart-line', {
+      points: {},
+      height: 0,
+      width: 0,
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0,
+      pathD: '',
+      heightChanged: function() {
+        this.updatePixelsPerY();
+      },
+      minXChanged: function() {
+        this.updatePixelsPerX();
+      },
+      maxXChanged: function() {
+        this.updatePixelsPerX();
+      },
+      minYChanged: function() {
+        this.updatePixelsPerY();
+      },
+      maxYChanged: function() {
+        this.updatePixelsPerY();
+      },
+      pointsChanged: function() {
+        if (this.points.x && this.points.y) {
+          var x = this.points.x.map(function(x) {
+            return this.xToPixels(x);
+          }, this);
+          var y = this.points.y.map(function(y) {
+            return this.yToPixels(y);
+          }, this);
+
+          var length = Math.min(this.points.x.length, this.points.y.length);
+          var d = 'M' + x[0] + ',' + this.yToPixels(0);
+          
+          for (var i = 0; i < length; i++) {
+            d += ' L' + x[i] + ',' + y[i];
+          }
+
+          d += ' L' + x[i - 1] + ',' + this.yToPixels(0);
+
+          this.pathD = d;
+        }
+      },
+      updatePixelsPerX: function() {
+        this.pixelsPerX = this.width / (this.maxX - this.minX);
+        this.async(this.pointsChanged);
+      },
+      updatePixelsPerY: function() {
+        this.pixelsPerY = this.height / (this.maxY - this.minY);
+        this.async(this.pointsChanged);
+      },
+      widthChanged: function() {
+        this.updatePixelsPerX();
+      },
+      xToPixels: function(x) {
+        return (x - this.minX) * this.pixelsPerX;
+      },
+      yToPixels: function(y) {
+        return (this.maxY - y) * this.pixelsPerY;
+      }
+    });
+  </script>
+</polymer-element>
