@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="process in processes | filter:hasCpuPercent | orderBy:['cpu_percent','name']:true">
+        <tr ng-repeat="process in (processes | filter:hasCpuPercent | orderBy:['cpu_percent','name']:true) track by process.pid">
           <td>{{process.name}}</td>
           <td>{{process.cpu_percent}}</td>
           <td>{{process.memory_percent}}</td>
