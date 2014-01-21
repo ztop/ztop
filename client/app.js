@@ -6,7 +6,7 @@ angular.module('clientApp', [])
     sock.onmessage = function(e) {
       $rootScope.$apply(function() {
         data.length = 0;
-        JSON.parse(e.data).forEach(function(d) { data.push(d); });
+        Array.prototype.push.apply(data, JSON.parse(e.data));
       });
     };
 
