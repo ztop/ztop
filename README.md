@@ -1,37 +1,41 @@
 ztop
 ====
 
-linux data aggregator
+linux data aggregator (written in Go)
 
-
-Installation
+Setup
 ===========
 
-Long-term, we want configuration to be as minimal as possible. Right
-now... not so much.
+Since you can find several sites online that will help you setup a Go workspace, 
+I will only cover the basics here.
 
-Install influxdb:
-http://influxdb.org/download/
+First you will create a folder structure like this
 
-Install python library using setuptools
-sudo pip install influxdb
+    ztop
+    |
+    ----bin
+    |
+    ----pkg
+    |
+    ----src
+        | 
+        ----github.com
+            |
+            ----ztop
 
-./influxdb_setup.py # for now, just creates a ztop database
+Then you will cd into src/github.com/ztop and use 
 
-I had to manually upgrade my six (python 2/3 compatibility library);
-if this is a common issue, we may want to include it in the repo; it
-is contained in a [single file](https://pypi.python.org/pypi/six/)
-(after extraction). Just put the file in the same directory as the
-influxdb scripts.
+`git clone https(or ssh)://github.com/ztop/ztop.git`
 
+Now while in the top level ztop directory (cd to it if you aren't there) 
+set this as the go path by typing 
 
-Reading data from influxdb
-==========================
-http://influxdb.org/docs/api/http.html
+``export GOPATH=`pwd` ``
 
-You can explore with basic web interface at
-localhost:8083. login with the cluster admin as root/root, and add a
-db user. After user creation, connect as a database user to the ztop
-database. Run a query like "select * from cpu_percent"
+and now you should be able to just run
 
-*the API uses port 8086
+`go build ...ztop`
+
+and it should produce an executable in the top level ztop directory. When you are 
+ready to commit changes, just cd to the src/github.com/ztop/ztop directory and work 
+with git straight from there.
