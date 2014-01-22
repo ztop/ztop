@@ -1,0 +1,467 @@
+/proc/PID/ (file descriptors)
+ clear_refs	Clears page referenced bits shown in smaps output
+ cmdline	Command line arguments
+ cpu		Current and last cpu in which it was executed	(2.4)(smp)
+ cwd		Link to the current working directory
+ environ	Values of environment variables
+ exe		Link to the executable of this process
+ fd		Directory, which contains all file descriptors
+ maps		Memory maps to executables and library files	(2.4)
+ mem		Memory held by this process
+ root		Link to the root directory of this process
+ stat		Process status
+ statm		Process memory status information
+ status		Process status in human readable form
+ wchan		If CONFIG_KALLSYMS is set, a pre-decoded wchan
+ pagemap	Page table
+ stack		Report full stack trace, enable via CONFIG_STACKTRACE
+ smaps		a extension based on maps, showing the memory consumption of each mapping and flags associated with it
+ 
+ 
+ 
+
+/proc/PID/status (contents of the status file)
+ Name                        filename of the executable
+ State                       state (R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped)
+ Tgid                        thread group ID
+ Pid                         process id
+ PPid                        process id of the parent process
+ TracerPid                   PID of process tracing this process (0 if not)
+ Uid                         Real, effective, saved set, and  file system UIDs
+ Gid                         Real, effective, saved set, and  file system GIDs
+ FDSize                      number of file descriptor slots currently allocated
+ Groups                      supplementary group list
+ VmPeak                      peak virtual memory size
+ VmSize                      total program size
+ VmLck                       locked memory size
+ VmHWM                       peak resident set size ("high water mark")
+ VmRSS                       size of memory portions
+ VmData                      size of data, stack, and text segments
+ VmStk                       size of data, stack, and text segments
+ VmExe                       size of text segment
+ VmLib                       size of shared library code
+ VmPTE                       size of page table entries
+ VmSwap                      size of swap usage (the number of referred swapents)
+ Threads                     number of threads
+ SigQ                        number of signals queued/max. number for queue
+ SigPnd                      bitmap of pending signals for the thread
+ ShdPnd                      bitmap of shared pending signals for the process
+ SigBlk                      bitmap of blocked signals
+ SigIgn                      bitmap of ignored signals
+ SigCgt                      bitmap of catched signals
+ CapInh                      bitmap of inheritable capabilities
+ CapPrm                      bitmap of permitted capabilities
+ CapEff                      bitmap of effective capabilities
+ CapBnd                      bitmap of capabilities bounding set
+ Seccomp                     seccomp mode, like prctl(PR_GET_SECCOMP, ...)
+ Cpus_allowed                mask of CPUs on which this process may run
+ Cpus_allowed_list           Same as previous, but in "list format"
+ Mems_allowed                mask of memory nodes allowed to this process
+ Mems_allowed_list           Same as previous, but in "list format"
+ voluntary_ctxt_switches     number of voluntary context switches
+ nonvoluntary_ctxt_switches  number of non voluntary context switches
+ 
+ 
+ 
+ 
+ /proc/PID/statm (contents of a file)
+ size     total program size (pages)		(same as VmSize in status)
+ resident size of memory portions (pages)	(same as VmRSS in status)
+ shared   number of pages that are shared	(i.e. backed by a file)
+ trs      number of pages that are 'code'	(not including libs; broken, includes data segment)
+ lrs      number of pages of library		(always 0 on 2.6)
+ drs      number of pages of data/stack		(including libs; broken, includes library text)
+ dt       number of dirty pages			(always 0 on 2.6)
+ 
+ 
+ 
+ 
+  /proc/PID/stat (contents of a file)
+  pid           process id
+  tcomm         filename of the executable
+  state         state (R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped)
+  ppid          process id of the parent process
+  pgrp          pgrp of the process
+  sid           session id
+  tty_nr        tty the process uses
+  tty_pgrp      pgrp of the tty
+  flags         task flags
+  min_flt       number of minor faults
+  cmin_flt      number of minor faults with child's
+  maj_flt       number of major faults
+  cmaj_flt      number of major faults with child's
+  utime         user mode jiffies
+  stime         kernel mode jiffies
+  cutime        user mode jiffies with child's
+  cstime        kernel mode jiffies with child's
+  priority      priority level
+  nice          nice level
+  num_threads   number of threads
+  it_real_value	(obsolete, always 0)
+  start_time    time the process started after system boot
+  vsize         virtual memory size
+  rss           resident set memory size
+  rsslim        current limit in bytes on the rss
+  start_code    address above which program text can run
+  end_code      address below which program text can run
+  start_stack   address of the start of the main process stack
+  esp           current value of ESP
+  eip           current value of EIP
+  pending       bitmap of pending signals
+  blocked       bitmap of blocked signals
+  sigign        bitmap of ignored signals
+  sigcatch      bitmap of catched signals
+  wchan         address where process went to sleep
+  0             (place holder)
+  0             (place holder)
+  exit_signal   signal to send to parent thread on exit
+  task_cpu      which CPU the task is scheduled on
+  rt_priority   realtime priority
+  policy        scheduling policy (man sched_setscheduler)
+  blkio_ticks   time spent waiting for block IO
+  gtime         guest time of the task in jiffies
+  cgtime        guest time of the task children in jiffies
+  start_data    address above which program data+bss is placed
+  end_data      address below which program data+bss is placed
+  start_brk     address above which program heap can be expanded with brk()
+  arg_start     address above which program command line is placed
+  arg_end       address below which program command line is placed
+  env_start     address above which program environment is placed
+  env_end       address below which program environment is placed
+  exit_code     the thread's exit_code in the form reported by the waitpid system call
+  
+  
+  
+  
+ /proc/PID/maps (file contents)
+ address 	address space of the process       
+ perms 		Permissions, can include: r = read, w = write, x = execute, s = shared, p = private (copy on write)
+ offset 	the offset into the region indicating which portion of the range the process is looking at
+ dev 		The device (major:minor)
+ inode      The inode for the memory region. If zero then it is an uninitialized region of memory
+ pathname	The "pathname" shows the name associated file for this mapping, or it could also use: 
+ [heap]                   = the heap of the program
+ [stack]                  = the stack of the main process
+ [stack:1001]             = the stack of the thread with tid 1001
+ [vdso]                   = the "virtual dynamic shared object" or the kernel system call handler
+ empty					  = the mapping is anonymous
+ 
+ Example Data:
+ 08048000-08049000 r-xp 00000000 03:00 8312       /opt/test
+ 08049000-0804a000 rw-p 00001000 03:00 8312       /opt/test
+ 0804a000-0806b000 rw-p 00000000 00:00 0          [heap]
+ a7cb1000-a7cb2000 ---p 00000000 00:00 0
+ a7cb2000-a7eb2000 rw-p 00000000 00:00 0
+ a7eb2000-a7eb3000 ---p 00000000 00:00 0
+ a7eb3000-a7ed5000 rw-p 00000000 00:00 0          [stack:1001]
+ 
+ 
+ 
+ /proc/PID/task/TID/maps (content of a file)
+ address 	address space of the task so all information here is relative to the task       
+ perms 		Permissions, can include: r = read, w = write, x = execute, s = shared, p = private (copy on write)
+ offset 	the offset into the region indicating which portion of the range the process is looking at
+ dev 		The device (major:minor)
+ inode      The inode for the memory region. If zero then it is an uninitialized region of memory
+ pathname	The "pathname" shows the name associated file for this mapping, or it could also use: 
+ [heap]                   = the heap of the program
+ [stack]                  = the stack of the main process
+ [vdso]                   = the "virtual dynamic shared object" or the kernel system call handler
+ empty					  = the mapping is anonymous
+ 
+ 
+ 
+ 
+ /proc/PID/smaps (file contents based on the /maps file, mulitple entries per file) This file is only present if the CONFIG_MMU kernel configuration option is enabled.
+ Address:     				The address space of a memory block of the process. Matches the Address in /proc/PID/maps
+ Size:               		The size of the mapping
+ Rss:                 		The amount of the mapping that is currently resident in RAM
+ Pss:                 		The process' proportional share of this mapping
+ Shared_Clean:        		The number of clean shared pages in the mapping. Note that even a page which is part of a MAP_SHARED mapping, but has only a single pte mapped, i.e.  is currently used by only one process, is accounted as private and not as shared
+ Shared_Dirty:          	The number of dirty shared pages in the mapping
+ Private_Clean:         	The number of clean private pages in the mapping
+ Private_Dirty:         	The number of dirty private pages in the mapping
+ Referenced:          		The amount of memory currently marked as referenced or accessed
+ Anonymous:             	The amount of memory that does not belong to any file. Even a mapping associated with a file may contain anonymous pages: when MAP_PRIVATE and a page is modified, the file page is replaced by a private anonymous copy
+ Swap:                  	How much would-be-anonymous memory is also used, but out on swap.
+ KernelPageSize:        	The page size for the operating system
+ MMUPageSize:           	The page size for the Memory Management Unit
+ Locked:              		How much of the current mapping is locked, or otherwise unaccessable.
+ VmFlags: 					"VmFlags" field deserves a separate description. This member represents the kernel flags associated with the particular virtual memory area in two letter encoded manner. The codes are the following:
+    rd  - readable
+    wr  - writeable
+    ex  - executable
+    sh  - shared
+    mr  - may read
+    mw  - may write
+    me  - may execute
+    ms  - may share
+    gd  - stack segment growns down
+    pf  - pure PFN range
+    dw  - disabled write to the mapped file
+    lo  - pages are locked in memory
+    io  - memory mapped I/O area
+    sr  - sequential read advise provided
+    rr  - random read advise provided
+    dc  - do not copy area on fork
+    de  - do not expand area on remapping
+    ac  - area is accountable
+    nr  - swap space is not reserved for the area
+    ht  - area uses huge tlb pages
+    nl  - non-linear mapping
+    ar  - architecture specific flag
+    dd  - do not include area into core dump
+    sd  - soft-dirty flag
+    mm  - mixed map area
+    hg  - huge page advise flag
+    nh  - no-huge page advise flag
+    mg  - mergable advise flag
+	
+	
+	
+	
+	
+
+ /proc/ (file descriptors, not all will be present on a system - it depends on which modules they have loaded)
+ apm         Advanced power management info                    
+ buddyinfo   Kernel memory allocator information (see text)	(2.5)
+ bus         Directory containing bus specific information     
+ cmdline     Kernel command line                               
+ cpuinfo     Info about the CPU                                
+ devices     Available devices (block and character)           
+ dma         Used DMS channels                                 
+ filesystems Supported filesystems                             
+ driver	     Various drivers grouped here, currently rtc (2.4)
+ execdomains Execdomains, related to security			(2.4)
+ fb	     Frame Buffer devices				(2.4)
+ fs	     File system parameters, currently nfs/exports	(2.4)
+ ide         Directory containing info about the IDE subsystem 
+ interrupts  Interrupt usage                                   
+ iomem	     Memory map						(2.4)
+ ioports     I/O port usage                                    
+ irq	     Masks for irq to cpu affinity			(2.4)(smp?)
+ isapnp	     ISA PnP (Plug&Play) Info				(2.4)
+ kcore       Kernel core image (can be ELF or A.OUT(deprecated in 2.4))   
+ kmsg        Kernel messages                                   
+ ksyms       Kernel symbol table                               
+ loadavg     Load average of last 1, 5 & 15 minutes                
+ locks       Kernel locks                                      
+ meminfo     Memory info                                       
+ misc        Miscellaneous                                     
+ modules     List of loaded modules                            
+ mounts      Mounted filesystems                               
+ net         Networking info (see text)                        
+ pagetypeinfo Additional page allocator information (see text)  (2.5)
+ partitions  Table of partitions known to the system           
+ pci	     Deprecated info of PCI bus (new way -> /proc/bus/pci/, decoupled by lspci					(2.4)
+ rtc         Real time clock                                   
+ scsi        SCSI info (see text)                              
+ slabinfo    Slab pool info                                    
+ softirqs    softirq usage
+ stat        Overall statistics                                
+ swaps       Swap space utilization                            
+ sys         See chapter 2                                     
+ sysvipc     Info of SysVIPC Resources (msg, sem, shm)		(2.4)
+ tty	     Info of tty drivers
+ uptime      System uptime                                     
+ version     Kernel version                                    
+ video	     bttv info of video resources			(2.4)
+ vmallocinfo Show vmalloced areas
+ 
+ 
+ 
+ /proc/interrupts (file contents) Shows which interrupts are currently in use and what they are used for
+ IRQ			The Interrupt ReQuest number that is being used
+ cpu[#]			A count for how many times the interrupts has been triggered on this cpu. 
+ InterruptType	Archictecture specific interrupt types. 
+ Device			The device that is listening for that interrupt, such as a keyboard
+ 
+ Note: in the IRQ column there are also special identifiers that can be used. They will have no interrupt type nor a device, but instead a description of what it represents. Some examples:
+	NMI		Incremented in this case because every timer interrupt generates a NMI (Non Maskable Interrupt) which is used by the NMI Watchdog to detect lockups.
+	
+	LOC 	The local interrupt counter of the internal APIC of every CPU
+	
+	ERR 	Incremented in the case of errors in the IO-APIC bus (the bus that connects the CPUs in a SMP system. This means that an error has been detected, the IO-APIC automatically retry the transmission, so it should not be a big problem, but you should read the SMP-FAQ.
+	
+	THR -- interrupt raised when a machine check threshold counter(typically counting ECC corrected errors of memory or cache) exceeds a configurable threshold.  Only available on some systems.
+
+	TRM -- a thermal event interrupt occurs when a temperature threshold has been exceeded for the CPU.  This interrupt may also be generated when the temperature drops back to normal.
+
+	SPU -- a spurious interrupt is some interrupt that was raised then lowered by some IO device before it could be fully processed by the APIC.  Hence the APIC sees the interrupt but does not know what device it came from. For this case the APIC will generate the interrupt with a IRQ vector of 0xff. This might also be generated by chipset bugs.
+
+	RES, CAL, TLB -- rescheduling, call and TLB flush interrupts are sent from one CPU to another per the needs of the OS.  Typically, their statistics are used by kernel developers and interested users to determine the occurrence of interrupts of the given type.
+	
+	
+
+	
+	
+/proc/softirqs  Provides counts of softirq handlers serviced since boot time, for each cpu.
+ Handler 	The identifier of the handler. Some examples: {HI, TIMER, NET_TX, NET_RX, BLOCK, TASKLET, SCHED, HRTIMER, RCU}
+ CPU[#]		Shows the count for the specific CPU
+	
+	
+	
+	
+ /proc/buddyinfo (file contents) Used for looking at external defragementation
+ Node[ #]	The starting i-node for this information
+ 
+ zone		There are 3 possible nodes: The DMA row references the first 16 MB on a system, the HighMem row references all memory greater than 4 GB on a system, and the Normal row references all memory in between.
+ 
+ blocks		There will be a different number of columns of numbers on the page depending on the machine. Starting from the left it is 2^[column index]*page_size. So the first column is PAGE_SIZE, the second is 2*page_size, the third is 4*page_size and so on
+ 
+ 
+ 
+ 
+ 
+ /proc/pagetypeinfo (file contents)
+ PageBlockOrder The order of magnitude of the page block. The actual size will be 2^PageBlockOrder KB
+ PagesPerBlock	The number of memory pages that can be within a single page block
+ 
+ Node [#]
+ Zone {DMA, DMA32}
+ Type {Unmovable, Reclaimable, Movable, Reserve, Isolate}
+ 
+ Node [#]
+ Zone
+ BlocksUnmovable	Number of blocks according to the PageBlockOrder that are Unmovable
+ BlocksReclaimable	Number of blocks according to the PageBlockOrder that are Reclaimable
+ BlocksMovable		Number of blocks according to the PageBlockOrder that are Movable
+ BlocksReserve		Number of blocks according to the PageBlockOrder that are Reserve
+ BlocksIsolate		Number of blocks according to the PageBlockOrder that are Isolate
+ 
+ 
+ 
+ 
+ 
+ /proc/meminfo (file contents)
+    MemTotal: Total usable ram (i.e. physical ram minus a few reserved
+              bits and the kernel binary code)
+     MemFree: The sum of LowFree+HighFree
+     Buffers: Relatively temporary storage for raw disk blocks
+              shouldn't get tremendously large (20MB or so)
+      Cached: in-memory cache for files read from the disk (the
+              pagecache).  Doesn't include SwapCached
+  SwapCached: Memory that once was swapped out, is swapped back in but
+              still also is in the swapfile (if memory is needed it
+              doesn't need to be swapped out AGAIN because it is already
+              in the swapfile. This saves I/O)
+      Active: Memory that has been used more recently and usually not
+              reclaimed unless absolutely necessary.
+    Inactive: Memory which has been less recently used.  It is more
+              eligible to be reclaimed for other purposes
+   HighTotal:
+    HighFree: Highmem is all memory above ~860MB of physical memory
+              Highmem areas are for use by userspace programs, or
+              for the pagecache.  The kernel must use tricks to access
+              this memory, making it slower to access than lowmem.
+    LowTotal:
+     LowFree: Lowmem is memory which can be used for everything that
+              highmem can be used for, but it is also available for the
+              kernel's use for its own data structures.  Among many
+              other things, it is where everything from the Slab is
+              allocated.  Bad things happen when you're out of lowmem.
+   SwapTotal: total amount of swap space available
+    SwapFree: Memory which has been evicted from RAM, and is temporarily
+              on the disk
+       Dirty: Memory which is waiting to get written back to the disk
+   Writeback: Memory which is actively being written back to the disk
+   AnonPages: Non-file backed pages mapped into userspace page tables
+AnonHugePages: Non-file backed huge pages mapped into userspace page tables
+      Mapped: files which have been mmaped, such as libraries
+        Slab: in-kernel data structures cache
+SReclaimable: Part of Slab, that might be reclaimed, such as caches
+  SUnreclaim: Part of Slab, that cannot be reclaimed on memory pressure
+  PageTables: amount of memory dedicated to the lowest level of page
+              tables.
+NFS_Unstable: NFS pages sent to the server, but not yet committed to stable
+	      storage
+      Bounce: Memory used for block device "bounce buffers"
+WritebackTmp: Memory used by FUSE for temporary writeback buffers
+ CommitLimit: Based on the overcommit ratio ('vm.overcommit_ratio'),
+              this is the total amount of  memory currently available to
+              be allocated on the system. This limit is only adhered to
+              if strict overcommit accounting is enabled (mode 2 in
+              'vm.overcommit_memory').
+              The CommitLimit is calculated with the following formula:
+              CommitLimit = ('vm.overcommit_ratio' * Physical RAM) + Swap
+              For example, on a system with 1G of physical RAM and 7G
+              of swap with a `vm.overcommit_ratio` of 30 it would
+              yield a CommitLimit of 7.3G.
+              For more details, see the memory overcommit documentation
+              in vm/overcommit-accounting.
+Committed_AS: The amount of memory presently allocated on the system.
+              The committed memory is a sum of all of the memory which
+              has been allocated by processes, even if it has not been
+              "used" by them as of yet. A process which malloc()'s 1G
+              of memory, but only touches 300M of it will show up as
+	      using 1G. This 1G is memory which has been "committed" to
+              by the VM and can be used at any time by the allocating
+              application. With strict overcommit enabled on the system
+              (mode 2 in 'vm.overcommit_memory'),allocations which would
+              exceed the CommitLimit (detailed above) will not be permitted.
+              This is useful if one needs to guarantee that processes will
+              not fail due to lack of memory once that memory has been
+              successfully allocated.
+VmallocTotal: total size of vmalloc memory area
+ VmallocUsed: amount of vmalloc area which is used
+VmallocChunk: largest contiguous block of vmalloc area which is free
+
+
+
+
+
+
+/proc/vmallocinfo (file contents) Provides information about vmalloced/vmaped areas. One line per area, containing the virtual address range of the area, size in bytes, caller information of the creator, and optional information depending on the kind of area :
+ pages=nr    number of pages
+ phys=addr   if a physical address was specified
+ ioremap     I/O mapping (ioremap() and friends)
+ vmalloc     vmalloc() area
+ vmap        vmap()ed pages
+ user        VM_USERMAP area
+ vpages      buffer for pages pointers was vmalloced (huge area)
+ N<node>=nr  (Only on NUMA kernels) Number of pages allocated on memory node <node>
+
+ 
+ 
+ 
+ 
+ 
+/proc/stat (file contents) (this file has data aggregated since the system booted
+ cpu[#] 		Indicates the CPU in question. If no number is present then it's the aggregate of all CPUs on the machine
+ user: 			normal processes executing in user mode
+ nice: 			niced processes executing in user mode
+ system: 		processes executing in kernel mode
+ idle: 			twiddling thumbs
+ iowait: 		waiting for I/O to complete
+ irq: 			servicing interrupts
+ softirq: 		servicing softirqs
+ steal: 		involuntary wait
+ guest: 		running a normal guest
+ guest_nice: 	running a niced guest
+
+ intr			Gives counts of interrupts  serviced since boot time, for each of the  possible system interrupts.   The first  column  is the  total of  all interrupts serviced; each  subsequent column is the  total for that particular interrupt.
+ 
+ ctxt 			Total number of context switches across all CPUs
+ btime 			The time at which the  system booted, in seconds since the Unix epoch.
+ processes 		The number  of processes and threads created since boot
+ procs_running 	The total number of threads that are running or ready to run
+ procs_blocked	The  number of  processes currently blocked, waiting for I/O to complete.
+ 
+ softirq		Gives counts of softirqs serviced since boot time, for each of the possible system softirqs. The first column is the total of all softirqs serviced; each subsequent column is the total for that particular softirq.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+OTHER THINGS TO LOOK AT:
+/proc/ide/
+/proc/scsi
+/proc/tty
