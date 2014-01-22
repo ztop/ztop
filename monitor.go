@@ -1,12 +1,11 @@
 package main 
 
 import "fmt"
-import "io"
+//import "io"
 import "os"
 
-type monitor interface {
-	pid      uint
-	update() nil
+type Monitor interface {
+	update() // nil
 }
 
 /* A monitor for all of the data found in /proc/:pid/stat
@@ -29,7 +28,7 @@ cutime %ld   (16) Amount of time that this process's waited-for children have be
 cstime %ld   (17) Amount of time that this process's waited-for children have been scheduled in kernel mode, measured in clock ticks (divide by sysconf(_SC_CLK_TCK)).
 priority %ld (18) (Explanation for Linux 2.6) For processes running a real-time scheduling policy (policy below; see sched_setscheduler(2)), this is the negated scheduling priority, minus one; that is, a number in the range -2 to -100, corresponding to real-time priorities 1 to 99. For processes running under a non-real-time scheduling policy, this is the raw nice value (setpriority(2)) as represented in the kernel. The kernel stores nice values as numbers in the range 0 (high) to 39 (low), corresponding to the user-visible nice range of -20 to 19.
 */
-type procstat struct {
+type ProcPidStat struct {
 	pid       int32
 	comm      string
 	state     string
@@ -50,13 +49,13 @@ type procstat struct {
 	priority  int64
 }
 
-func (p procstat) update() {
-	fi, err := os.Open(fmt.PrintF("/proc/%d/stat", p.pid))
+func (p ProcPidStat) update() {
+	fi, err := os.Open(fmt.Sprintf("/proc/%d/stat", p.pid))
     if err != nil {
     	panic(err) 
     }
 	// In Go, all int values are read with %d :p
-	_, err = Fscanf(fi, "%d %s %c %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+	_, err = fmt.Fscanf(fi, "%d %s %c %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", 
 		&p.pid, &p.comm, &p.state, &p.ppid, &p.pgrp, &p.session, &p.tty_nr, &p.tpgid, &p.flags, 
 		&p.minflt, &p.cminflt, &p.majflt, &p.cmajflt, &p.utime, &p.stime, &p.cutime, &p.cstime, &p.priority)
     if err != nil {
