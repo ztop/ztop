@@ -1,0 +1,557 @@
+{
+	"PID_STATUS": 	{
+					"Name": {
+								"Short": 	"Filename",
+								"Medium": 	"Filename of the executable",
+								"Long": 	"Filename of the executable"
+							},
+					"State": {
+								"Short": 	"State",
+								"Medium": 	"The current state of the process",
+								"Long": 	"The current state of the process. R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped"
+							},
+					"TGid": {
+								"Short": 	"Thread group ID",
+								"Medium": 	"Thread group ID",
+								"Long": 	"Thread group ID"
+							},
+					"Pid": {
+								"Short": 	"Process ID",
+								"Medium": 	"Process ID",
+								"Long": 	"Process ID"
+							},
+					"PPid": {
+								"Short": 	"Parent Process ID",
+								"Medium": 	"Parent Process ID",
+								"Long": 	"Parent Process ID"
+							},
+					"TracerPid": {
+								"Short": 	"ID of process tracing this process",
+								"Medium": 	"ID of process tracing this process (0 if not)",
+								"Long": 	"ID of process tracing this process (0 if not)"
+							},
+					"Uid": {
+								"Short": 	"Real, effective, saved set, file system",
+								"Medium": 	"Real, effective, saved set, and  file system UIDs",
+								"Long": 	"Real, effective, saved set, and  file system user IDs"
+							},
+ 					"Gid": {
+								"Short": 	"Real, effective, saved set, file system",
+								"Medium": 	"Real, effective, saved set, and  file system GIDs",
+								"Long": 	"Real, effective, saved set, and  file system group IDs"
+							},
+ 					"FD": {
+								"Short": 	"Number of file descripors",
+								"Medium": 	"Number of file descriptor slots currently allocated",
+								"Long": 	"Number of file descriptor slots currently allocated"
+							},
+ 					"Groups": {
+								"Short": 	"Group list",
+								"Medium": 	"Supplementary group list",
+								"Long": 	"Supplementary group list for this process"
+							},
+ 					"VmPeak": {
+								"Short": 	"Peack VM ",
+								"Medium": 	"Peak virtual memory ",
+								"Long": 	"Peak virtual memory "
+							},
+ 					"Vm": {
+								"Short": 	"Program ",
+								"Medium": 	"Total program ",
+								"Long": 	"Total program "
+							},
+ 					"VmLck": {
+								"Short": 	"Locked memory ",
+								"Medium": 	"Locked memory ",
+								"Long": 	"Locked memory "
+							},
+ 					"VmHWM": {
+								"Short": 	"Peak resident set ",
+								"Medium": 	"Peak resident set  ("high water mark")",
+								"Long": 	"Peak resident set  ("high water mark")"
+							},
+ 					"VmRSS": {
+								"Short": 	" of memory portions",
+								"Medium": 	" of memory portions",
+								"Long": 	" of memory portions"
+							},
+ 					"VmData": {
+								"Short": 	" of data",
+								"Medium": 	" of data",
+								"Long": 	" of data used by the process"
+							},
+ 					"VmStk": {
+								"Short": 	" of the stack",
+								"Medium": 	" of the stack",
+								"Long": 	" of the stack used by the process"
+							},
+ 					"VmExe": {
+								"Short": 	" of text",
+								"Medium": 	" of text",
+								"Long": 	" of text used by the process"
+							},
+ 					"VmLib": {
+								"Short": 	" of shared library code",
+								"Medium": 	" of shared library code",
+								"Long": 	" of shared library code"
+							},
+ 					"VmPTE": {
+								"Short": 	" of page table entries",
+								"Medium": 	" of page table entries",
+								"Long": 	" of page table entries"
+							},
+ 					"VmSwap": {
+								"Short": 	" of swap usage",
+								"Medium": 	" of swap usage (the number of referred swapents)",
+								"Long": 	" of swap usage (the number of referred swapents)"
+							},
+ 					"Threads": {
+								"Short": 	"Number of threads",
+								"Medium": 	"Number of threads",
+								"Long": 	"Number of threads for this process"
+							},
+ 					"SigQ": {
+								"Short": 	"number of signals queued/max. number for queue",
+								"Medium": 	"number of signals queued/max. number for queue",
+								"Long": 	"number of signals queued/max. number for queue"
+							},
+ 					"SigPnd": {
+								"Short": 	"bitmap of pending signals for the thread",
+								"Medium": 	"bitmap of pending signals for the thread",
+								"Long": 	"bitmap of pending signals for the thread"
+							},
+ 					"ShdPnd": {
+								"Short": 	"bitmap of shared pending signals for the process",
+								"Medium": 	"bitmap of shared pending signals for the process",
+								"Long": 	"bitmap of shared pending signals for the process"
+							},
+ 					"SigBlk": {
+								"Short": 	"bitmap of blocked signals",
+								"Medium": 	"bitmap of blocked signals",
+								"Long": 	"bitmap of blocked signals"
+							},
+ 					"SigIgn": {
+								"Short": 	"bitmap of ignored signals",
+								"Medium": 	"bitmap of ignored signals",
+								"Long": 	"bitmap of ignored signals"
+							},
+ 					"SigCgt": {
+								"Short": 	"bitmap of catched signals",
+								"Medium": 	"bitmap of catched signals",
+								"Long": 	"bitmap of catched signals"
+							},
+ 					"CapInh": {
+								"Short": 	"bitmap of inheritable capabilities",
+								"Medium": 	"bitmap of inheritable capabilities",
+								"Long": 	"bitmap of inheritable capabilities"
+							},
+ 					"CapPrm": {
+								"Short": 	"bitmap of permitted capabilities",
+								"Medium": 	"bitmap of permitted capabilities",
+								"Long": 	"bitmap of permitted capabilities"
+							},
+ 					"CapEff": {
+								"Short": 	"bitmap of effective capabilities",
+								"Medium": 	"bitmap of effective capabilities",
+								"Long": 	"bitmap of effective capabilities"
+							},
+ 					"CapBnd": {
+								"Short": 	"bitmap of capabilities bounding set",
+								"Medium": 	"bitmap of capabilities bounding set",
+								"Long": 	"bitmap of capabilities bounding set"
+							},
+ 					"Seccomp": {
+								"Short": 	"seccomp mode",
+								"Medium": 	"seccomp mode, like prctl(PR_GET_SECCOMP, ...)",
+								"Long": 	"seccomp mode, like prctl(PR_GET_SECCOMP, ...)"
+							},
+ 					"Cpus_allowed": {
+								"Short": 	"mask of CPUs on which this process may run",
+								"Medium": 	"mask of CPUs on which this process may run",
+								"Long": 	"mask of CPUs on which this process may run"
+							},
+ 					"Cpus_allowed_list": {
+								"Short": 	"CPUs on which this process may run",
+								"Medium": 	"CPUs on which this process may run",
+								"Long": 	"CPUs on which this process may run"
+							},
+ 					"Mems_allowed": {
+								"Short": 	"mask of memory nodes allowed",
+								"Medium": 	"mask of memory nodes allowed for this process",
+								"Long": 	"mask of memory nodes allowed for this process"
+							},
+ 					"Mems_allowed_list": {
+								"Short": 	"memory nodes allowed",
+								"Medium": 	"memory nodes allowed for this process",
+								"Long": 	"memory nodes allowed for this process"
+							},
+ 					"voluntary_ctxt_switches": {
+								"Short": 	"number of voluntary context switches",
+								"Medium": 	"number of voluntary context switches",
+								"Long": 	"number of voluntary context switches"
+							},
+ 					"nonvoluntary_ctxt_switches": {
+								"Short": 	"number of non voluntary context switches",
+								"Medium": 	"number of non voluntary context switches",
+								"Long": 	"number of non voluntary context switches"
+							}
+					},
+	"PID_STATM": 	{
+					"": {
+						"Short": 	"Total program  (pages)",
+						"Medium":	"Total program  (pages)	(same as Vm in status)",
+						"Long":		"Total program  (pages)	(same as Vm in status)"
+						},
+					"resident": {
+						"Short": 	" of memory portions (pages)",
+						"Medium":	" of memory portions (pages) (same as VmRSS in status)",
+						"Long":		" of memory portions (pages) (same as VmRSS in status)"
+						},
+					"shared": {
+						"Short": 	"number of pages that are shared",
+						"Medium":	"number of pages that are shared (i.e. backed by a file)",
+						"Long":		"number of pages that are shared (i.e. backed by a file)"
+						},
+					"trs": {
+						"Short": 	"number of pages that are 'code'",
+						"Medium":	"number of pages that are 'code'",
+						"Long":		"number of pages that are 'code'	(not including libs; broken, includes data segment)"
+						},
+					"lrs": {
+						"Short": 	"number of pages of library",
+						"Medium":	"number of pages of library",
+						"Long":		"number of pages of library"
+						},
+					"drs": {
+						"Short": 	"number of pages of data/stack",
+						"Medium":	"number of pages of data/stack	(including libs; broken, includes library text)",
+						"Long":		"number of pages of data/stack	(including libs; broken, includes library text)"
+						},
+					"dt": {
+						"Short": 	"number of dirty pages",
+						"Medium":	"number of dirty pages",
+						"Long":		"number of dirty pages"
+						}
+					},
+	
+
+	"PID_STAT": {
+					"pid": {
+						"Short": 	"process id",
+						"Medium":	"process id",
+						"Long":		"process id"
+						}
+					},
+					"tcomm": {
+						"Short": 	"filename",
+						"Medium":	"filename of the executable",
+						"Long":		"filename of the executable"
+						}
+					},
+					"state": {
+						"Short": 	"R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped",
+						"Medium":	"state: R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped",
+						"Long":		"Current process state: R is running, S is sleeping, D is sleeping in an uninterruptible wait, Z is zombie, T is traced or stopped"
+						}
+					},
+					"ppid": {
+						"Short": 	"parent process id",
+						"Medium":	"process id of the parent process",
+						"Long":		"process id of the parent process"
+						}
+					},
+					"pgrp": {
+						"Short": 	"process group",
+						"Medium":	"process group of the process",
+						"Long":		"process group of the process"
+						}
+					},
+					"sid": {
+						"Short": 	"session id",
+						"Medium":	"session id",
+						"Long":		"session id"
+						}
+					},
+					"tty_nr": {
+						"Short": 	"tty the process uses",
+						"Medium":	"tty the process uses",
+						"Long":		"tty the process uses"
+						}
+					},
+					"tty_pgrp": {
+						"Short": 	"pgrp of the tty",
+						"Medium":	"pgrp of the tty",
+						"Long":		"pgrp of the tty"
+						}
+					},
+					"flags": {
+						"Short": 	"task flags",
+						"Medium":	"task flags",
+						"Long":		"task flags"
+						}
+					},
+					"min_flt": {
+						"Short": 	"number of minor faults",
+						"Medium":	"number of minor faults",
+						"Long":		"number of minor faults"
+						}
+					},
+					"cmin_flt": {
+						"Short": 	"number of minor faults with child's",
+						"Medium":	"number of minor faults with child's",
+						"Long":		"number of minor faults with child's"
+						}
+					},
+					"maj_flt": {
+						"Short": 	"number of major faults",
+						"Medium":	"number of major faults",
+						"Long":		"number of major faults"
+						}
+					},
+					"cmaj_flt": {
+						"Short": 	"number of major faults with child's",
+						"Medium":	"number of major faults with child's",
+						"Long":		"number of major faults with child's"
+						}
+					},
+					"utime": {
+						"Short": 	"user mode jiffies",
+						"Medium":	"user mode jiffies (number of ticks)",
+						"Long":		"user mode jiffies (number of processor ticks)"
+						}
+					},
+					"stime": {
+						"Short": 	"kernel mode jiffies",
+						"Medium":	"kernel mode jiffies (number of ticks)",
+						"Long":		"kernel mode jiffies (number of processor ticks)"
+						}
+					},
+					"cutime": {
+						"Short": 	"user mode jiffies with child's",
+						"Medium":	"user mode jiffies with child's (number of ticks)",
+						"Long":		"user mode jiffies with child's (number of processor ticks)"
+						}
+					},
+					"cstime": {
+						"Short": 	"kernel mode jiffies with child's",
+						"Medium":	"kernel mode jiffies with child's (number of ticks)",
+						"Long":		"kernel mode jiffies with child's (number of processor ticks)"
+						}
+					},
+					"priority": {
+						"Short": 	"priority level",
+						"Medium":	"priority level",
+						"Long":		"priority level"
+						}
+					},
+					"nice": {
+						"Short": 	"nice level",
+						"Medium":	"nice level",
+						"Long":		"nice level"
+						}
+					},
+					"num_threads": {
+						"Short": 	"number of threads",
+						"Medium":	"number of threads",
+						"Long":		"number of threads"
+						}
+					},
+					"start_time": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"v": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"rss": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"rsslim": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"start_code": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"end_code": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"start_stack": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"esp": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"eip": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"pending": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"blocked": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"sigign": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"sigcatch": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"wchan": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"0": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"0": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"exit_signal": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"task_cpu": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"rt_priority": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"policy": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"blkio_ticks": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"gtime": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"cgtime": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"start_data": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"end_data": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"start_brk": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"arg_start": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"arg_end": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"env_start": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"env_end": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					},
+					"exit_code": {
+						"Short": 	"",
+						"Medium":	"",
+						"Long":		""
+						}
+					}
+					},
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": "",
+	"": ""
+}
