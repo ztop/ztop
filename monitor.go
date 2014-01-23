@@ -3,8 +3,11 @@ package main
 import "fmt"
 //import "io"
 import "os"
+//import "reflect"
 
 type Monitor interface {
+	SetPID(string)
+	GetPointer(string) *string
 	Update() // nil
 }
 
@@ -71,6 +74,24 @@ type ProcPidStat struct {
 	// blah blah lots more fields
 }
 
+func (p *ProcPidStat) SetPID(name string) {
+	p.pid = name
+}
+
+func (p *ProcPidStat) GetPointer(name string) *string {
+	// I couldn't find a fancy Reflect way to do this so the is the best I get
+	switch name {
+	case "pid":
+		return &p.pid
+	case "comm":
+		return &p.comm
+	case "utime":
+		return &p.utime
+	}
+	s := "NOT FOUND"
+	return &s //&p.pid//reflect.ValueOf(p).Elem().FieldByName(name).String()
+}
+
 func (p *ProcPidStat) Update() {
 	fi, err := os.Open(fmt.Sprintf("/proc/%s/stat", p.pid))
     if err != nil {
@@ -83,4 +104,5 @@ func (p *ProcPidStat) Update() {
     if err != nil {
     	panic(err) 
     }
+    fi.Close()
 }

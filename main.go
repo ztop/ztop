@@ -32,9 +32,9 @@ func UpdateProcesses(plist map[string]*Process, fields *Fields) {
 					// we want to edit the fields captured for this process
 					process.Update()
 				} else {
-					process := new(Process)
+					process = new(Process)
 					process.pid = name
-					process.fields = make(map[string]*Monitor)
+					process.fields = make(map[string]*string)
 					process.type_monitor = make(map[reflect.Type]*Monitor)
 					process.AddFields(fields.names)
 					process.Update()
@@ -44,6 +44,7 @@ func UpdateProcesses(plist map[string]*Process, fields *Fields) {
 				for _, v := range data {
 					fmt.Printf("%-20s", v)
 				}
+				fmt.Print("\n")
 			}		
 		}
 	}

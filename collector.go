@@ -9,7 +9,7 @@ type Process struct {
 	monitors []Monitor
 	// A map of all the types to a pointer to the monitor
 	type_monitor map[reflect.Type]*Monitor
-	fields map[string]*Monitor//reflect.StructField //, reflect.Type)
+	fields map[string]*string //reflect.StructField //, reflect.Type)
 }
 
 func (p *Process) RemoveField(field string) {
@@ -24,11 +24,13 @@ func (p *Process) AddField(field string) {
 	monitor, exists := p.type_monitor[monitor_type]
 	if !exists {
 		// If there isn't a monitor for this field, make a new monitor
-		monitor := reflect.New(monitor_type).Interface().(Monitor)
-		p.monitors = append(p.monitors, monitor)
-		p.type_monitor[monitor_type] = &monitor
+		t_monitor := reflect.New(monitor_type).Interface().(Monitor)
+		monitor = &t_monitor
+		(*monitor).SetPID(p.pid)
+		p.monitors = append(p.monitors, *monitor)
+		p.type_monitor[monitor_type] = monitor
 	}
-	p.fields[field] = monitor
+	p.fields[field] = (*monitor).GetPointer(FieldToStructField(field))
 }
 
 func (p *Process) AddFields(fields []string) {
@@ -56,13 +58,11 @@ func (p *Process) Data(fields []string) []string {
 	// Potentially, we could change this to be a dynamic struct of just the
 	// values that we need to return.
 	ret := make([]string, len(fields))
-		fmt.Println(fields)
-		fmt.Println(p.fields)
 	for i, field := range fields {
-		monitor := p.fields[field]
-		name := FieldToStructField(field)
-		f_type := reflect.ValueOf(monitor).FieldByName(name)
-		ret[i] = fmt.Sprintf("%d", f_type.String())
+		//monitor := p.fields[field]
+		//name := FieldToStructField(field)
+		//f_type := //reflect.ValueOf(monitor).Elem().FieldByName(name)
+		ret[i] = fmt.Sprintf("%s", *p.fields[field]) //f_type.String())
 	}
 	return ret
 }
