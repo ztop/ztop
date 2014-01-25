@@ -49,7 +49,8 @@
         this.processData.forEach(function (process) {
           sum += process.cpu_percent;
         });
-        this.cpuUsage = Math.round(sum);
+        var numCpus = Math.max(1, this.processData.length && this.processData[0].cpu_affinity.length);
+        this.cpuUsage = Math.round(sum / numCpus);
 
         // TODO use real value
         this.maximumFrequency = Math.floor(Math.random() * 151);
