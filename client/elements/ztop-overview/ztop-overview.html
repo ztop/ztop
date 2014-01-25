@@ -121,6 +121,8 @@
       <div>
         <ztop-fifo id="cpuFifo" elements="{{cpuY}}" maxLength="60"></ztop-fifo>
         <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" x="{{cpuX}}" y="{{cpuY}}"></ztop-chart-line>
+        <ztop-fifo id="diskFifo" elements="{{diskY}}" maxLength="60"></ztop-fifo>
+        <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" x="{{diskX}}" y="{{diskY}}"></ztop-chart-line>
       </div>
     </div>
   </template>
@@ -128,15 +130,24 @@
     Polymer('ztop-overview', {
       cpuX: [],
       cpuY: [],
+      diskX: [],
+      diskY: [],
       processDataChanged: function() {
-        if (!this.cpuX.length) {
-          this.cpuX = [59];
-        }
-        else if (this.cpuX[0]) {
+        if (this.cpuX[0]) {
           this.cpuX.unshift(this.cpuX[0] - 1);
+        }
+        if (this.diskX[0]) {
+          this.diskX.unshift(this.diskX[0] - 1);
         }
 
         this.$.cpuFifo.push(this.cpuUsage);
+        this.$.diskFifo.push(this.diskIo);
+      },
+      ready: function() {
+        this.cpuX = [59];
+        this.cpuY = [0];
+        this.diskX = [59];
+        this.diskY = [0];
       }
     });
   </script>
