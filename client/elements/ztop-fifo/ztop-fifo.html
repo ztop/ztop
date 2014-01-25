@@ -1,0 +1,24 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+ 
+<polymer-element name="ztop-fifo" attributes="elements maxLength">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('ztop-fifo', {
+      elements: [],
+      maxLength: 0,
+      push: function(element) {
+        if (this.elements.length == this.maxLength) {
+          this.elements.shift();
+        }
+
+        this.elements.push(element);
+      }
+    });
+  </script>
+</polymer-element>

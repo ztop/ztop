@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
  
-<polymer-element name="ztop-chart-line" attributes="points height width minX minY maxX maxY">
+<polymer-element name="ztop-chart-line" attributes="x y height width minX minY maxX maxY">
   <template>
     <style>
       :host {
@@ -13,7 +13,8 @@
   </template>
   <script>
     Polymer('ztop-chart-line', {
-      points: {},
+      x: [],
+      y: [],
       height: 0,
       width: 0,
       minX: 0,
@@ -37,15 +38,15 @@
         this.updatePixelsPerY();
       },
       pointsChanged: function() {
-        if (this.points.x && this.points.y) {
-          var x = this.points.x.map(function(x) {
+        if (this.x.length && this.y.length) {
+          var x = this.x.map(function(x) {
             return this.xToPixels(x);
           }, this);
-          var y = this.points.y.map(function(y) {
+          var y = this.y.map(function(y) {
             return this.yToPixels(y);
           }, this);
 
-          var length = Math.min(this.points.x.length, this.points.y.length);
+          var length = Math.min(this.x.length, this.y.length);
           var d = 'M' + x[0] + ',' + this.yToPixels(0);
           
           for (var i = 0; i < length; i++) {
@@ -67,6 +68,12 @@
       },
       widthChanged: function() {
         this.updatePixelsPerX();
+      },
+      xChanged: function() {
+        this.async(this.pointsChanged);
+      },
+      yChanged: function() {
+        this.async(this.pointsChanged);
       },
       xToPixels: function(x) {
         return (x - this.minX) * this.pixelsPerX;

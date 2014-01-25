@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymer-ui-accordion/polymer-ui-accordion.html">
 <link rel="import" href="../../bower_components/polymer-ui-collapsible/polymer-ui-collapsible.html">
 <link rel="import" href="../ztop-chart-line/ztop-chart-line.html">
+<link rel="import" href="../ztop-fifo/ztop-fifo.html">
 <link rel="import" href="../ztop-percent-indicator-vertical/ztop-percent-indicator-vertical.html">
 <link rel="import" href="../ztop-process-cpu-info/ztop-process-cpu-info.html">
 <link rel="import" href="../ztop-process-disk-info/ztop-process-disk-info.html">
@@ -118,15 +119,24 @@
         </polymer-ui-collapsible>
       </polymer-ui-accordion>
       <div>
-        <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" points="{{cpuPoints}}"></ztop-chart-line>
+        <ztop-fifo id="cpuFifo" elements="{{cpuY}}" maxLength="60"></ztop-fifo>
+        <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" x="{{cpuX}}" y="{{cpuY}}"></ztop-chart-line>
       </div>
     </div>
   </template>
   <script>
     Polymer('ztop-overview', {
-      cpuPoints: {
-        x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
-        y: [10, 8, 11, 15, 20, 26, 30, 40, 50, 58, 63, 64, 70, 80, 95, 94, 95, 95, 93, 90, 84, 78, 70, 60, 47, 44, 43, 45, 47, 46, 44, 43, 43, 44, 45, 50, 44, 40, 32, 20, 21, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+      cpuX: [],
+      cpuY: [],
+      processDataChanged: function() {
+        if (!this.cpuX.length) {
+          this.cpuX = [59];
+        }
+        else if (this.cpuX[0]) {
+          this.cpuX.unshift(this.cpuX[0] - 1);
+        }
+
+        this.$.cpuFifo.push(this.cpuUsage);
       }
     });
   </script>
