@@ -123,6 +123,8 @@
         <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" x="{{cpuX}}" y="{{cpuY}}"></ztop-chart-line>
         <ztop-fifo id="diskFifo" elements="{{diskY}}" maxLength="60"></ztop-fifo>
         <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="100" x="{{diskX}}" y="{{diskY}}"></ztop-chart-line>
+        <ztop-fifo id="networkFifo" elements="{{networkY}}" maxLength="60"></ztop-fifo>
+        <ztop-chart-line height="100" width="150" minX="0" minY="0" maxX="59" maxY="10" x="{{networkX}}" y="{{networkY}}"></ztop-chart-line>
       </div>
     </div>
   </template>
@@ -132,6 +134,8 @@
       cpuY: [],
       diskX: [],
       diskY: [],
+      networkX: [],
+      networkY: [],
       processDataChanged: function() {
         if (this.cpuX[0]) {
           this.cpuX.unshift(this.cpuX[0] - 1);
@@ -139,15 +143,21 @@
         if (this.diskX[0]) {
           this.diskX.unshift(this.diskX[0] - 1);
         }
+        if (this.networkX[0]) {
+          this.networkX.unshift(this.networkX[0] - 1);
+        }
 
         this.$.cpuFifo.push(this.cpuUsage);
         this.$.diskFifo.push(this.diskIo);
+        this.$.networkFifo.push(this.networkIo);
       },
       ready: function() {
         this.cpuX = [59];
         this.cpuY = [0];
         this.diskX = [59];
         this.diskY = [0];
+        this.networkX = [59];
+        this.networkY = [0];
       }
     });
   </script>
