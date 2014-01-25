@@ -28,7 +28,7 @@
         <tr template repeat="{{process in processData | orderBy('name')}}">
           <td>{{process.name}}</td>
           <td>{{process.pid}}</td>
-          <td>/usr/bin/whatever</td>
+          <td>{{process.exe}}</td>
           <td>10,000</td>
           <td>0</td>
           <td>10,000</td>
