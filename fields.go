@@ -3,7 +3,7 @@ This file contains the magical functions needed to look up which struct and whic
 in order to collect the information for the field.
 */
 
-package main;
+package main
 
 import (
 	"reflect"
