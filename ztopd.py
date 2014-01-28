@@ -5,33 +5,10 @@ import sys
 if os.name != 'posix':
     sys.exit('platform not supported')
 
-import psutil
 import socket
 import time
 
-from influxdb import client as influxdb
-db = influxdb.InfluxDBClient("localhost", 8086, "root", "root", "ztop")
-
-
-collectors = {"cpu_percent": psutil.cpu_times_percent,
-              "network_usage": psutil.net_io_counters}  # this is a counter; should replace with diff
-
-
-def format_for_submission(name, values):
-    points = [socket.getfqdn()]
-    columns = ["host"]
-    for field, value in zip(values._fields, values):  # assumes named tuple; we'll have to handle cases here or standardize output
-        points.append(value)
-        columns.append(field)
-
-    return {"points": [points],
-            "name": name,
-            "columns": columns}
-
-
-def pub_data(data):
-    # later on, pub, with optional writing to db? or should the db be subbed?
-    db.write_points(data)
+import push, collectors
 
 
 def main():
