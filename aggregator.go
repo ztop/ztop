@@ -36,6 +36,7 @@ func replaceAggregation(field *AggregationField, temp *AggregationTempField) *Ag
 	// Make the sum
 	for _, x := range temp.vals {
 		stats.sum += x
+		// TODO: More stats!
 	}
 	// Add the stats
 	field.statistics = append(field.statistics,stats)
