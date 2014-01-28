@@ -17,7 +17,7 @@ def main():
         data = []
         for name, fn in collectors.collectors.iteritems():
             raw_data = fn()
-            data.append(collectors.format_for_submission(name, raw_data))
+            data.append(push.format_for_submission(name, raw_data))
         push.pub_data(data)
         while (start_time + interval - time.time()) > 0:
             rest_duration = start_time + interval - time.time()
