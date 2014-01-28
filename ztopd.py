@@ -15,10 +15,14 @@ def main():
     while True:
         start_time = time.time()
         data = []
+
+        # run collectors, push
         for name, fn in collectors.collectors.iteritems():
-            raw_data = fn()
-            data.append(push.format_for_submission(name, raw_data))
+            columns, values = fn()
+            data.append(push.format_for_submission(name, columns, values))
         push.pub_data(data)
+
+        # rest until the next loop
         while (start_time + interval - time.time()) > 0:
             rest_duration = start_time + interval - time.time()
             time.sleep(rest_duration)
