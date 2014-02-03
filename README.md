@@ -1,7 +1,7 @@
 ztop
 ====
 
-linux data aggregator
+Ztop aggregates data to help identify bottlenecks on a linux system.
 
 
 Installation
