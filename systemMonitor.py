@@ -26,6 +26,69 @@ class systemMonitorMemInfo():
 					self.fieldValues[name] = words[1] + words[2]
 
 
+class systemMonitorNetworkUtilization():
+	fieldValues = {}
+
+	def __init__(self):
+		fieldValues = {}
+
+	#Interface refers to the name of the device we are looking at
+	#receiveTransmit: 'receive' or 'transmit'
+	#Column can be one of the following:
+	#	bytes
+	#	packets
+	#	errs
+	#	drop
+	#	fifo
+	#	compressed
+	#	frame (receive only)
+	#	multicast (receive only)
+	#	colls (transmit only)
+	#	carrier (transmit only) 
+	def getFieldValue(self, interface, receiveTransmit, column):
+		result = self.fieldValues[interface][isreceive][column]
+		if not result or result == '':
+			result = 'no data'
+		return result;
+
+	def update(self):
+		infoFile = open('/proc/net/dev', 'r')
+		if infoFile:
+			firstLine = infoFile.readline()
+			secondLine = infoFile.readline()
+			majorheaders = string.split(secondLine, '|')
+			majorheaders[0] = 'interface'
+			receiveHeaders = string.split(majorheaders[1])
+			transmitHeaders = string.split(majorheaders[2])
+
+			for line in infoFile:
+				receiveDictionary = {}
+				transmitDictionary = {}
+				valueDictionary = {'receive': receiveDictionary, 'transmit': transmitDictionary}
+				
+				values = string.split(line)
+				interfaceName = values[0][:-1]
+
+				self.fieldValues[interfaceName] = valueDictionary
+
+				#received info
+				index = 1
+				for key in receiveHeaders:
+					value = values[index]
+					receiveDictionary[key] = value
+					index = index + 1
+
+				#transmit info
+				for key in transmitHeaders:
+					value = values[index]
+					transmitDictionary[key] = value
+					index = index + 1
+			print self.fieldValues
+
+
+
+
+
 
 class systemMonitorInterrupts():
 

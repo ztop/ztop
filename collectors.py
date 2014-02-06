@@ -1,5 +1,6 @@
 import psutil
 from systemMonitor import systemMonitorMemInfo
+from systemMonitor import systemMonitorNetworkUtilization
 
 def cpu_percent():
     values = psutil.cpu_times_percent()
@@ -44,7 +45,23 @@ def mem_info():
 
     return fields, [data]
 
+def networkUtilization():
+    netDev = systemMonitorNetworkUtilization()
+    netDev.update()
+    keys = netDev.fieldValues.keys()
+    values = netDev.fieldValues.values()
+
+    fields = []
+    data = []
+
+    for field, point in netDev.fieldValues.iteritems():
+        data.append(point)
+        fields.append(field)
+
+    return fields, [data]
+
 
 collectors = {"cpu_percent": cpu_percent,
               "network_usage": network_usage,
-              "mem_info": mem_info}
+              "mem_info": mem_info,
+              "net_dev": networkUtilization}
