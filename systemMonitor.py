@@ -1,17 +1,28 @@
 import string
+import os
 
-class systemMonitorMemInfo():
 
-	fieldValues = {}
+''' All system monitors will use this interface '''
+class systemMonitor():
+	filedValues = {}
 
 	def __init__(self):
-		fieldValues = {}
+		self.fieldValues = {}
 
 	def getFieldValue(self, name):
 		result = self.fieldValues[name]
 		if not result or result == '':
 			result = 'no data'
-		return result
+		return result;
+
+	def update(self):
+		raise NotImplementedError( 'systemMonitor: update not implemented')
+
+
+class systemMonitorMemInfo(systemMonitor):
+
+	def __init__(self):
+		systemMonitor.__init__(self)
 
 	#Updates the information we have from the meminfo file
 	#Each row of the file is in the following format 
@@ -26,11 +37,10 @@ class systemMonitorMemInfo():
 					self.fieldValues[name] = words[1] + words[2]
 
 
-class systemMonitorNetworkUtilization():
-	fieldValues = {}
+class systemMonitorNetworkUtilization(systemMonitor):
 
 	def __init__(self):
-		fieldValues = {}
+		systemMonitor.__init__(self)
 
 	#Interface refers to the name of the device we are looking at
 	#receiveTransmit: 'receive' or 'transmit'
@@ -90,19 +100,10 @@ class systemMonitorNetworkUtilization():
 
 
 
-class systemMonitorInterrupts():
-
-	fieldValues = {}
+class systemMonitorInterrupts(systemMonitor):
 
 	def __init__(self):
-		fieldValues = {}
-
-	def getFieldValue(self, interruptID):
-		result = self.fieldValues[name]
-		if not result or result == '':
-			result = 'no data'
-		return result;
-
+		systemMonitor.__init__(self)
 
 	#          CPU0       CPU1       CPU2       CPU3       
 	#0:         28          0          0          0   IO-APIC-edge      timer
@@ -120,8 +121,18 @@ class systemMonitorInterrupts():
 					print i
 
 
+''' For this CPU stats we will convert user_hz to seconds '''
+class systemMonitorCPUUtilization(systemMonitor):
+	#the /proc/stat file is in terms of user hz, which is most often 100
+	user_hz = 100
 
+	def __init__(self):
+		systemMonitor.__init__(self)
+		user_hz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 
+	
+	def update(self):
+		print 'do something'
 
 def test():
 	sysMon = systemMonitorMemInfo()
