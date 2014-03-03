@@ -2,6 +2,7 @@ import string
 import os
 import commands
 import time
+import psutil
 
 ''' All system monitors will use this interface '''
 class systemMonitor():
@@ -36,68 +37,6 @@ class systemMonitorMemInfo(systemMonitor):
 				if len(words) > 2:
 					name = words[0][:-1]
 					self.fieldValues[name] = words[1] + words[2]
-
-
-class systemMonitorNetworkUtilization(systemMonitor):
-
-	def __init__(self):
-		systemMonitor.__init__(self)
-
-	#Interface refers to the name of the device we are looking at
-	#receiveTransmit: 'receive' or 'transmit'
-	#Column can be one of the following:
-	#	bytes
-	#	packets
-	#	errs
-	#	drop
-	#	fifo
-	#	compressed
-	#	frame (receive only)
-	#	multicast (receive only)
-	#	colls (transmit only)
-	#	carrier (transmit only) 
-	def getFieldValue(self, interface, receiveTransmit, column):
-		result = self.fieldValues[interface][isreceive][column]
-		if not result or result == '':
-			result = 'no data'
-		return result;
-
-	def update(self):
-		infoFile = open('/proc/net/dev', 'r')
-		if infoFile:
-			firstLine = infoFile.readline()
-			secondLine = infoFile.readline()
-			majorheaders = string.split(secondLine, '|')
-			majorheaders[0] = 'interface'
-			receiveHeaders = string.split(majorheaders[1])
-			transmitHeaders = string.split(majorheaders[2])
-
-			for line in infoFile:
-				receiveDictionary = {}
-				transmitDictionary = {}
-				valueDictionary = {'receive': receiveDictionary, 'transmit': transmitDictionary}
-				
-				values = string.split(line)
-				interfaceName = values[0][:-1]
-
-				self.fieldValues[interfaceName] = valueDictionary
-
-				#received info
-				index = 1
-				for key in receiveHeaders:
-					value = values[index]
-					receiveDictionary[key] = value
-					index = index + 1
-
-				#transmit info
-				for key in transmitHeaders:
-					value = values[index]
-					transmitDictionary[key] = value
-					index = index + 1
-			print self.fieldValues
-
-
-
 
 
 #TODO:
@@ -151,7 +90,6 @@ class systemMonitorCPUUtilization(systemMonitor):
 		dataFile = open('/proc/stat', 'r')
 		if dataFile:
 			for line in dataFile:
-				print line[:3]
 				if line.startswith('cpu'):
 					localFields = string.split(line)
 					name = localFields[0]
@@ -237,9 +175,84 @@ class systemMonitorMemoryCapacitySaturization(systemMonitor):
 			saturation = swapped_in / swapped_out
 		self.fieldValues['saturation'] = saturation
 
-class systemMonitorNetworkInterfacesUtilization(systemMonitor):
+class systemMonitorStorageDeviceIOUtilization(systemMonitor):
 	def __init__(self):
 		systemMonitor,__init__(self)
 
 	def update(self):
-		infoFile = open('/proc/net/dev', 'r')
+		systemStats = psutil.disk_io_counters(perdisk=False)
+
+		name = 'Total'
+		self.fieldValues[name + '_read_count']	= systemStats.read_count
+		self.fieldValues[name + '_write_count']	= systemStats.write_count
+		self.fieldValues[name + '_read_bytes']	= systemStats.read_bytes
+		self.fieldValues[name + '_write_bytes']	= systemStats.write_bytes
+		self.fieldValues[name + '_read_time']	= systemStats.read_time
+		self.fieldValues[name + '_write_time']	= systemStats.write_time
+
+
+		for name, stats in psutil.disk_io_counters(perdisk=True):
+			self.fieldValues[name + '_read_count']	= stats.read_count
+			self.fieldValues[name + '_write_count']	= stats.write_count
+			self.fieldValues[name + '_read_bytes']	= stats.read_bytes
+			self.fieldValues[name + '_write_bytes']	= stats.write_bytes
+			self.fieldValues[name + '_read_time']	= stats.read_time
+			self.fieldValues[name + '_write_time']	= stats.write_time
+
+
+class systemMonitorStorageDeviceIOSaturation(systemMonitor):
+	def __init__(self):
+		systemMonitor,__init__(self)
+
+	def update(self):
+		data = commands.getoutput('iostat -xNz')
+		inDesiredSection = False
+		for line in data:
+			lineVals = string.split(line)
+			if inDesiredSection and len(lineVals) > 0:
+				#output is going to look like this:
+				#Device: rrqm/s wrqm/s r/s w/s rkB/s wkB/s avgrq-sz avgqu-sz await r_await w_await  svctm  %util
+				name = lineVals[0][:-1] #trim off the colon
+				#saturation is the average queue size
+				#rrqm = lineVals[1] #The number of read requests merged per second that were queued to the device.
+				#wrqm = lineVals[2] #The number of write requests merged per second that were queued to the device.
+				#r = lineVals[3] #The number of read requests that were issued to the device per second.
+				#w = lineVals[4] #The number of write requests that were issued to the device per second.
+				#rkB = lineVals[5] #The number of kilobytes read from the device per second.
+				#wkB = lineVals[6] #The number of kilobytes written to the device per second.
+				#avgrq = lineVals[7] #The average size (in sectors) of the requests that were issued to the device.
+				avgqu = lineVals[8] #The average queue length of the requests that were issued to the device.
+				#await = lineVals[9] #The average time (in milliseconds) for I/O requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them.
+				#r_await = lineVals[10] #The average time (in milliseconds) for I/O read requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them.
+				#w_await = lineVals[11] #The average time (in milliseconds) for I/O write requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them.
+				#svctm = lineVals[12] #The average service time (in milliseconds) for I/O requests that were issued to the device. Warning! Do not trust this field any more. This field will be removed in a future sysstat version.
+				util = lineVals[13] #Percentage of CPU time during which I/O requests were issued to the device (bandwidth utilization for the device). Device saturation occurs when this value is close to 100%.
+
+				self.fieldValues[name + '_average_queue_size'] = avgqu
+				self.fieldValues[name + '_percent_cpu_io_requests'] = util
+
+			elif len(lineVals) > 0 and 'Device:' == lineVals[0]:
+				inDesiredSection = True
+
+class systemMonitorStorageCapacityUtilization(systemMonitor):
+	def __init__(self):
+		systemMonitor,__init__(self)
+
+	def update(self):
+		partitions = psutilself.disk_partitions()
+		
+		#all=False means only return physical devices
+		#all=True  means return al partitions including mempry partitions like /dev/shm
+		for part in psutil.disk_partitions(all=True):
+			name = part.device
+
+			self.fieldValues[name + "_MountPoint"] = part.mountpoint
+			self.fieldValues[name + "_fstype"] = part.fstype
+			self.fieldValues[name + "_opts"] = part.opts
+
+			usage = psutil.disk_usage(part.mountpoint)
+
+			self.fieldValues[name + "_Total"] = usage.total
+			self.fieldValues[name + "_Used"] = usage.total
+			self.fieldValues[name + "_Free"] = usage.total
+			self.fieldValues[name + "_Percent"] = usage.total

@@ -17,9 +17,15 @@ def main():
         data = []
 
         # run collectors, push
-        for name, fn in collectors.collectors.iteritems():
-            columns, values = fn()
-            data.append(push.format_for_submission(name, columns, values))
+        for name, params in collectors.collectors.iteritems():
+            fn = params[0]
+            if len(params) == 1:
+                columns, values = fn()
+                data.append(push.format_for_submission(name, columns, values))
+            else:
+                columns, values = fn(params[1])
+                data.append(push.format_for_submission(name, columns, values))
+            
         push.pub_data(data)
 
         # rest until the next loop
