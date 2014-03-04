@@ -52,14 +52,20 @@ collectors = {"cpu_percent": [cpu_percent],
               "storage_device_io_saturation": [process_generic_monitor, systemMonitorStorageDeviceIOSaturation],
               #"storage_device_io_errors": storage_device_io_errors,
               "storage_capacity_utilization": [process_generic_monitor, systemMonitorStorageCapacityUtilization],
-              #"storage_capacity_saturation": storage_capacity_saturation,
+              #"storage_capacity_saturation": storage_capacity_saturation, #information grabbed in storage_capacity_utilization
               #"storage_capacity_errors": storage_capacity_errors,
+              
+              #The following need max values per device/card which I'm not sure how to get
+
               #"storage_controller_utilization": storage_controller_utilization,
               #"storage_controller_saturation": storage_controller_saturation,
               #"storage_controller_errors": storage_controller_errors,
               #"network_controller_utilization": network_controller_utilization,
               #"network_controller_saturation": network_controller_saturation,
               #"network_controller_errors": network_controller_errors,
+
+              #The following need perf
+
               #"cpu_interconnect_utilization": cpu_interconnect_utilization, #requires perf
               #"cpu_interconnect_saturation": cpu_interconnect_saturation,  #requires perf
               #"cpu_interconnect_errors": cpu_interconnect_errors,  #requires perf

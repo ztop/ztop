@@ -177,7 +177,7 @@ class systemMonitorMemoryCapacitySaturization(systemMonitor):
 
 class systemMonitorStorageDeviceIOUtilization(systemMonitor):
 	def __init__(self):
-		systemMonitor,__init__(self)
+		systemMonitor.__init__(self)
 
 	def update(self):
 		systemStats = psutil.disk_io_counters(perdisk=False)
@@ -191,7 +191,8 @@ class systemMonitorStorageDeviceIOUtilization(systemMonitor):
 		self.fieldValues[name + '_write_time']	= systemStats.write_time
 
 
-		for name, stats in psutil.disk_io_counters(perdisk=True):
+
+		for name, stats in psutil.disk_io_counters(perdisk=True).iteritems():
 			self.fieldValues[name + '_read_count']	= stats.read_count
 			self.fieldValues[name + '_write_count']	= stats.write_count
 			self.fieldValues[name + '_read_bytes']	= stats.read_bytes
@@ -202,7 +203,7 @@ class systemMonitorStorageDeviceIOUtilization(systemMonitor):
 
 class systemMonitorStorageDeviceIOSaturation(systemMonitor):
 	def __init__(self):
-		systemMonitor,__init__(self)
+		systemMonitor.__init__(self)
 
 	def update(self):
 		data = commands.getoutput('iostat -xNz')
@@ -236,10 +237,10 @@ class systemMonitorStorageDeviceIOSaturation(systemMonitor):
 
 class systemMonitorStorageCapacityUtilization(systemMonitor):
 	def __init__(self):
-		systemMonitor,__init__(self)
+		systemMonitor.__init__(self)
 
 	def update(self):
-		partitions = psutilself.disk_partitions()
+		partitions = psutil.disk_partitions()
 		
 		#all=False means only return physical devices
 		#all=True  means return al partitions including mempry partitions like /dev/shm
